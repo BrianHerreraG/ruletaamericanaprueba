@@ -510,93 +510,7 @@ $respuesta_json = null;
         return numerosRuleta[indiceAleatorio];
     }
 
-    // MODIFICADA: Función para guardar apuesta DESPUÉS de la animación
-    function guardarApuesta(tipoApuesta, numeroApostado, cantidadApostada, numeroResultado) {
-        // Construir el body de la petición
-        let bodyParams =
-            `action=guardar_apuesta&tipo_apuesta=${tipoApuesta}&cantidad=${cantidadApostada}&numero_resultado=${numeroResultado}`;
-
-        // Solo incluir numero si es apuesta a número específico
-        if (tipoApuesta === 'numero') {
-            bodyParams += `&numero=${numeroApostado}`;
-        }
-
-        return fetch('juego.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: bodyParams
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Actualizar estado del juego
-                    monedasActuales = data.monedas_actuales;
-                    jugadasRestantes = data.jugadas_restantes;
-
-                    // Actualizar interfaz
-                    document.getElementById('monedas-display').textContent = monedasActuales;
-                    document.getElementById('jugadas-restantes').textContent = jugadasRestantes;
-                    document.getElementById('cantidad').max = monedasActuales;
-                    document.getElementById('max-monedas').textContent = monedasActuales;
-
-                    // Actualizar historial
-                    let textoApuesta = tipoApuesta === 'numero' ? numeroApostado : tipoApuesta.toUpperCase();
-                    actualizarHistorial(textoApuesta, numeroResultado, data.ganancia, cantidadApostada);
-
-                    // Mostrar mensaje
-                    mostrarMensaje(data.mensaje, data.ganancia > 0 ? 'success' : 'warning');
-
-                    // Verificar si se acabaron las jugadas
-                    //if (jugadasRestantes <= 0) {
-                    //    setTimeout(() => {
-                    //        window.location.href = 'ranking.php';
-                    //    }, 3000);
-                    //}
-                }
-                return data;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                mostrarMensaje('Error de conexión. Inténtalo de nuevo.', 'error');
-                return {
-                    success: false,
-                    mensaje: 'Error de conexión'
-                };
-            });
-    }
-
-    // Función para actualizar el historial de apuestas
-    function actualizarHistorial(numeroApostado, numeroResultado, ganancia, cantidadApostada) {
-        const tbody = document.getElementById('historial-tbody');
-        const primeraFila = tbody.querySelector('tr');
-
-        // Si la primera fila dice "No hay apuestas registradas", eliminarla
-        if (primeraFila && primeraFila.textContent.includes('No hay apuestas registradas')) {
-            primeraFila.remove();
-        }
-
-        // Crear nueva fila
-        const nuevaFila = document.createElement('tr');
-        const gananciaClass = ganancia > 0 ? 'text-success' : 'text-danger';
-        const gananciaTexto = ganancia > 0 ? `+${ganancia}` : `-${cantidadApostada}`;
-
-        // Mostrar números correctamente (37 -> 00)
-        const numApostadoDisplay = numeroApostado === '37' ? '00' : numeroApostado;
-        const numResultadoDisplay = numeroResultado === '37' ? '00' : numeroResultado;
-
-        nuevaFila.innerHTML = `
-            <td>${numApostadoDisplay}</td>
-            <td>${numResultadoDisplay}</td>
-            <td class="${gananciaClass}">${gananciaTexto}</td>
-        `;
-
-        // Insertar al principio del tbody
-        tbody.insertBefore(nuevaFila, tbody.firstChild);
-    }
-
-
+    
     function girarRuleta() {
         if (girando || !apuestaSeleccionada) {
             if (!apuestaSeleccionada) {
@@ -688,28 +602,6 @@ $respuesta_json = null;
                 // Mostrar resultado visual
                 mostrarResultadoVisual(numeroGanador, gano);
 
-                // AHORA guardar la apuesta en el servidor con el resultado predeterminado
-                guardarApuesta(
-                    apuestaSeleccionada.tipo,
-                    apuestaSeleccionada.valor || '',
-                    cantidad,
-                    numeroGanador.numero
-                ).then(respuesta => {
-                    if (!respuesta.success) {
-                        mostrarMensaje(respuesta.mensaje || 'Error al guardar la apuesta',
-                            'error');
-                    }
-
-                    // Rehabilitar el botón
-                    girando = false;
-                    document.getElementById('btnGirar').disabled = false;
-
-                    // Limpiar selección
-                    document.querySelectorAll('.btn-numero, .btn-apuesta').forEach(b => b
-                        .classList.remove('selected'));
-                    apuestaSeleccionada = null;
-                    document.getElementById('apuestaTexto').textContent = 'Ninguna';
-                });
             }, 4000);
         }, 50);
     }
