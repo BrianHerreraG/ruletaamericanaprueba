@@ -53,8 +53,7 @@ $respuesta_json = null;
                 </ul>
                 <div class="d-flex">
                     <span class="navbar-text me-3">
-                        <i class="fas fa-user me-1"></i> Hola,
-                        <?php echo htmlspecialchars($_SESSION['nombre_usuario']); ?>
+                        <i class="fas fa-user me-1"></i> Hola
                     </span>
                     <a href="index.php?action=logout" class="btn btn-outline-danger btn-sm">
                         <i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión
