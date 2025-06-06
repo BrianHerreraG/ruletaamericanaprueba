@@ -180,51 +180,7 @@ $respuesta_json = null;
 
             </div>
 
-            <div class="d-flex flex-column flex-lg-row col-12">
-                <!-- Historial de apuestas -->
-                <div class="card mt-4 col-12 col-lg-6 p-2">
-                    <div class="card-header bg-dark">
-                        <h3 class="mb-0">Historial de Apuestas</h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Apuesta</th>
-                                    <th>Resultado</th>
-                                    <th>Monedas</th>
-                                </tr>
-                            </thead>
-                            <tbody id="historial-tbody">
-                                <?php 
-                    $apuestas = [];
-                    while($row = $historial_stmt->fetch(PDO::FETCH_ASSOC)) {
-                        $apuestas[] = $row;
-                    }
-                    
-                    $apuestas = array_reverse($apuestas);
-                    
-                    foreach($apuestas as $row) {
-                        $tipo_apuesta = isset($row['tipo_apuesta']) ? $row['tipo_apuesta'] : 'numero';
-                        $apuesta_texto = $tipo_apuesta === 'numero'
-                            ? ($row['numero_apostado'] == 37 ? '00' : $row['numero_apostado'])
-                            : strtoupper($tipo_apuesta);
-                        $resultado = $row['numero_resultado'] == 37 ? '00' : $row['numero_resultado'];
-                        $ganancia_class = $row['ganancia'] > 0 ? 'text-success' : 'text-danger';
-                        $ganancia_texto = $row['ganancia'] > 0 ? "+{$row['ganancia']}" : "-{$row['cantidad_apostada']}";
-                        
-                        echo "<tr><td>{$apuesta_texto}</td><td>{$resultado}</td><td class='{$ganancia_class}'>{$ganancia_texto}</td></tr>";
-                    }
-
-                    if(empty($apuestas)) {
-                        echo "<tr><td colspan='3' class='text-center'>No hay apuestas registradas</td></tr>";
-                    }
-                    ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+            
                 <!-- Información del juego -->
                 <div class="card mt-4 col-12 col-lg-6 p-2">
                     <div class="card-header bg-dark">
