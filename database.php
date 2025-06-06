@@ -33,7 +33,7 @@ class Database {
             } else {
                 // Configuración para entorno de producción (VPS)
                 // Estos valores deberías cambiarlos por los de tu VPS
-                $this->host = "localhost";
+                $this->host = "72.167.220.82";
                 $this->db_name = "ruleta_americana";
                 $this->username = "redes2";
                 $this->password = "redes2";
