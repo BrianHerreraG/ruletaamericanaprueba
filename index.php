@@ -179,38 +179,6 @@ $respuesta_json = null;
                 <?php endif; ?>
 
             </div>
-
-            
-                <!-- Información del juego -->
-                <div class="card mt-4 col-12 col-lg-6 p-2">
-                    <div class="card-header bg-dark">
-                        <h3 class="mb-0">Información</h3>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush bg-transparent">
-                            <li class="list-group-item bg-transparent border-dark">
-                                <i class="fas fa-info-circle me-2 text-info"></i>
-                                Tienes <?php echo $max_jugadas; ?> jugadas por partida
-                            </li>
-                            <li class="list-group-item bg-transparent border-dark">
-                                <i class="fas fa-coins me-2 text-warning"></i>
-                                Ganancia número específico: x<?php echo $multiplicador; ?>
-                            </li>
-                            <li class="list-group-item bg-transparent border-dark">
-                                <i class="fas fa-palette me-2 text-danger"></i>
-                                Ganancia color (rojo/negro): x1.5
-                            </li>
-                            <li class="list-group-item bg-transparent border-dark">
-                                <i class="fas fa-divide me-2 text-success"></i>
-                                Ganancia par/impar: x1.5
-                            </li>
-                            <li class="list-group-item bg-transparent border-dark">
-                                <i class="fas fa-random me-2 text-primary"></i>
-                                Números: 0-36 y 00 (0 y 00 no cuentan para color/paridad)
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
 
         </div>
