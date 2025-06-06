@@ -37,7 +37,7 @@ class Database {
                 $this->db_name = "ruleta_americana";
                 $this->username = "redes2";
                 $this->password = "redes2";
-                $this->port = 3306;
+                $this->port = 3307;
             }
         } else {
             // Usar configuración proporcionada
